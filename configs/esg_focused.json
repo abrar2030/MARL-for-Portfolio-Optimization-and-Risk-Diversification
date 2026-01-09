@@ -1,0 +1,7 @@
+{
+  "env": {
+    "use_esg": true,
+    "esg_weight": 0.15,
+    "min_esg_score": 60.0
+  }
+}

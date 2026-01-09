@@ -1,0 +1,8 @@
+{
+  "network": {
+    "use_transformer": true,
+    "transformer_heads": 8,
+    "transformer_layers": 4,
+    "transformer_dim": 256
+  }
+}

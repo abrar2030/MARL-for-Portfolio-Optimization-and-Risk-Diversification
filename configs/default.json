@@ -1,0 +1,24 @@
+{
+  "env": {
+    "n_agents": 4,
+    "n_assets": 30,
+    "dynamic_diversity": true,
+    "diversity_weight_range": [0.05, 0.2],
+    "use_esg": true,
+    "use_sentiment": true
+  },
+  "network": {
+    "use_transformer": true,
+    "transformer_heads": 8,
+    "transformer_layers": 4
+  },
+  "training": {
+    "n_episodes": 300,
+    "lr_actor": 0.0001,
+    "lr_critic": 0.001
+  },
+  "risk": {
+    "use_cvar": true,
+    "cvar_alpha": 0.95
+  }
+}

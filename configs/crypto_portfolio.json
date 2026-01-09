@@ -1,0 +1,7 @@
+{
+  "env": {
+    "include_crypto": true,
+    "include_bonds": true,
+    "n_assets": 40
+  }
+}
