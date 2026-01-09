@@ -8,7 +8,7 @@ from typing import Dict, List, Tuple, Optional
 from collections import deque
 
 
-class EnhancedMultiAgentPortfolioEnv:
+class MultiAgentPortfolioEnv:
     """
     Multi-Agent Portfolio Environment with diversity-promoting rewards
     Implements Section 3 (Problem Formulation) from the paper
@@ -404,7 +404,7 @@ if __name__ == "__main__":
     loader = MarketDataLoader(config)
     data = loader.prepare_environment_data()
 
-    env = EnhancedMultiAgentPortfolioEnv(config, data)
+    env = MultiAgentPortfolioEnv(config, data)
     obs = env.reset()
 
     print(f"Environment initialized successfully!")

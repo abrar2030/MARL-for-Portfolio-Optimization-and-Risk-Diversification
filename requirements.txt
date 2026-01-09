@@ -8,7 +8,7 @@ scipy>=1.7.0
 yfinance>=0.1.70
 tqdm>=4.62.0
 
-# Enhanced Features
+# Advanced Features
 transformers>=4.30.0
 sentencepiece>=0.1.99
 accelerate>=0.20.0

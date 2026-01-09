@@ -1,5 +1,5 @@
 """
-Models module for enhanced MADDPG
+Models module for advanced MADDPG
 Includes Transformer-based architectures and attention mechanisms
 """
 

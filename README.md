@@ -103,7 +103,7 @@
 - Network weight histograms
 - Hyperparameter logging
 
-#### 15. **Enhanced Visualization Suite**
+#### 15. **Advanced Visualization Suite**
 
 - Drawdown analysis with regime overlay
 - Correlation matrices over time
@@ -116,7 +116,7 @@
 
 Compared to the original implementation:
 
-| Metric          | Original | Enhanced | Improvement                  |
+| Metric          | Original | Advanced | Improvement                  |
 | --------------- | -------- | -------- | ---------------------------- |
 | Sharpe Ratio    | 1.42     | **1.68** | **+18.3%**                   |
 | Max Drawdown    | 12.3%    | **9.8%** | **-20.3%**                   |
@@ -215,7 +215,7 @@ source venv/bin/activate  # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-### 2. Run Enhanced Demo
+### 2. Run Advanced Demo
 
 ```bash
 # Quick demo with all features

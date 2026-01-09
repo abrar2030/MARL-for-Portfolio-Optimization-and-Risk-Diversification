@@ -45,7 +45,7 @@ def test_basic_functionality():
     try:
         from config import Config
         from data_loader import MarketDataLoader
-        from environment import EnhancedMultiAgentPortfolioEnv
+        from environment import MultiAgentPortfolioEnv
 
         # Create config
         config = Config()
@@ -58,7 +58,7 @@ def test_basic_functionality():
         print("✓ Data loaded")
 
         # Create environment
-        env = EnhancedMultiAgentPortfolioEnv(config, data)
+        env = MultiAgentPortfolioEnv(config, data)
         print("✓ Environment created")
 
         # Reset environment

@@ -508,12 +508,12 @@ class MADDPGTrainer:
 if __name__ == "__main__":
     from config import Config
     from data_loader import MarketDataLoader
-    from environment import EnhancedMultiAgentPortfolioEnv
+    from environment import MultiAgentPortfolioEnv
 
     config = Config()
     loader = MarketDataLoader(config)
     data = loader.prepare_environment_data()
-    env = EnhancedMultiAgentPortfolioEnv(config, data)
+    env = MultiAgentPortfolioEnv(config, data)
 
     trainer = MADDPGTrainer(env, config)
 

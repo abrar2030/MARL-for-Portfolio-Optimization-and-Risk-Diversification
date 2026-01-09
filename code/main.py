@@ -11,7 +11,7 @@ from datetime import datetime
 
 from config import Config
 from data_loader import MarketDataLoader
-from environment import EnhancedMultiAgentPortfolioEnv
+from environment import MultiAgentPortfolioEnv
 from maddpg_agent import MADDPGTrainer
 from baselines import evaluate_all_baselines
 
@@ -40,7 +40,7 @@ def train(config: Config, save_dir: str):
 
     # Create environment
     print("Creating environment...")
-    env = EnhancedMultiAgentPortfolioEnv(config, data)
+    env = MultiAgentPortfolioEnv(config, data)
 
     # Create trainer
     print("Initializing MADDPG trainer...")
@@ -145,7 +145,7 @@ def evaluate(config: Config, model_path: str, save_dir: str):
 
     # Create environment
     print("Creating environment...")
-    env = EnhancedMultiAgentPortfolioEnv(config, data)
+    env = MultiAgentPortfolioEnv(config, data)
 
     # Create trainer and load model
     print(f"Loading model from {model_path}...")

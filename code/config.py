@@ -86,7 +86,7 @@ class EnvironmentConfig:
 
 @dataclass
 class NetworkConfig:
-    """Enhanced network architecture configuration"""
+    """Advanced network architecture configuration"""
 
     # Actor network
     actor_hidden_dims: List[int] = field(default_factory=lambda: [256, 128, 64])
@@ -114,7 +114,7 @@ class NetworkConfig:
 
 @dataclass
 class TrainingConfig:
-    """Enhanced training configuration"""
+    """Advanced training configuration"""
 
     n_episodes: int = 300
     max_steps_per_episode: int = 252
@@ -219,7 +219,7 @@ class Config:
     # NEW: Experiment Tracking
     use_tensorboard: bool = True
     use_wandb: bool = False
-    experiment_name: str = "enhanced_maddpg"
+    experiment_name: str = "advanced_maddpg"
 
     # NEW: Interpretability
     use_shap: bool = True
@@ -262,7 +262,7 @@ class Config:
         config.num_workers = config_dict.get("num_workers", 4)
         config.use_tensorboard = config_dict.get("use_tensorboard", True)
         config.use_wandb = config_dict.get("use_wandb", False)
-        config.experiment_name = config_dict.get("experiment_name", "enhanced_maddpg")
+        config.experiment_name = config_dict.get("experiment_name", "advanced_maddpg")
         config.use_shap = config_dict.get("use_shap", True)
         config.use_attention_visualization = config_dict.get(
             "use_attention_visualization", True
@@ -282,7 +282,7 @@ default_config = Config()
 
 
 def get_state_dim(config: Config) -> int:
-    """Calculate enhanced state dimension"""
+    """Calculate advanced state dimension"""
     n_features_per_asset = (
         2  # Historical returns
         + 3  # RSI, MACD, MACD Signal

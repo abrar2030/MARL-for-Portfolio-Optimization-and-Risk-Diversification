@@ -20,9 +20,13 @@ class BaselineStrategy:
         """Get portfolio weights for all agents"""
         raise NotImplementedError
 
-    def evaluate(self) -> Dict:
-        """Evaluate strategy on test set"""
-        states = self.env.reset()
+    def evaluate(self, start_idx: int = None, end_idx: int = None) -> Dict:
+        """Evaluate strategy on test set. If start_idx/end_idx provided, reset the env to that range; otherwise assume env is already reset to desired period."""
+        if start_idx is not None or end_idx is not None:
+            states = self.env.reset(start_idx=start_idx, end_idx=end_idx)
+        else:
+            # Use current observations without changing environment boundaries
+            states = self.env._get_observations()
 
         while not self.env.done:
             actions = self.get_actions(states)
@@ -273,12 +277,12 @@ def evaluate_all_baselines(env, config) -> Dict:
 if __name__ == "__main__":
     from config import Config
     from data_loader import MarketDataLoader
-    from environment import EnhancedMultiAgentPortfolioEnv
+    from environment import MultiAgentPortfolioEnv
 
     config = Config()
     loader = MarketDataLoader(config)
     data = loader.prepare_environment_data()
-    env = EnhancedMultiAgentPortfolioEnv(config, data)
+    env = MultiAgentPortfolioEnv(config, data)
 
     results = evaluate_all_baselines(env, config)
 
