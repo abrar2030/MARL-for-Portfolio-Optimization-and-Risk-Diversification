@@ -1,0 +1,153 @@
+version: "3.8"
+
+services:
+  # Base MARL service
+  marl-base:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        COMPUTE_TYPE: cpu
+    image: marl-portfolio:cpu
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./logs:/app/logs
+      - ./results:/app/results
+      - ./configs:/app/configs
+    environment:
+      - PYTHONUNBUFFERED=1
+      - DATA_DIR=/app/data
+      - MODELS_DIR=/app/models
+      - LOGS_DIR=/app/logs
+    profiles:
+      - base
+
+  # Training service (CPU)
+  marl-train-cpu:
+    extends: marl-base
+    command: python code/main.py --mode train --episodes 300
+    profiles:
+      - train
+      - train-cpu
+
+  # Training service (GPU)
+  marl-train-gpu:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        COMPUTE_TYPE: gpu
+    image: marl-portfolio:gpu
+    command: python code/main.py --mode train --episodes 300
+    volumes:
+      - ./data:/app/data
+      - ./models:/app/models
+      - ./logs:/app/logs
+      - ./results:/app/results
+      - ./configs:/app/configs
+    environment:
+      - PYTHONUNBUFFERED=1
+      - CUDA_VISIBLE_DEVICES=0
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    profiles:
+      - train-gpu
+
+  # MARL-Lite training (simplified)
+  marl-lite-train:
+    extends: marl-base
+    command: python code/main.py --mode train --config configs/marl_lite.json
+    profiles:
+      - lite
+      - train-lite
+
+  # Feature importance analysis
+  feature-analysis:
+    extends: marl-base
+    command: python code/analysis/feature_importance.py
+    profiles:
+      - analysis
+      - feature-analysis
+
+  # Rebalancing optimization
+  rebalancing-analysis:
+    extends: marl-base
+    command: python code/analysis/rebalancing_optimization.py
+    profiles:
+      - analysis
+      - rebalancing
+
+  # API service
+  api:
+    extends: marl-base
+    command: uvicorn code.api.main:app --host 0.0.0.0 --port 8000 --reload
+    ports:
+      - "8000:8000"
+    profiles:
+      - production
+      - api
+
+  # Dashboard service
+  dashboard:
+    extends: marl-base
+    command: python code/dashboard/app.py --host 0.0.0.0 --port 8050
+    ports:
+      - "8050:8050"
+    profiles:
+      - production
+      - dashboard
+
+  # Scheduler service (for production rebalancing)
+  scheduler:
+    extends: marl-base
+    command: python code/production/scheduler.py
+    depends_on:
+      - api
+    profiles:
+      - production
+
+  # Risk monitoring service
+  risk-monitor:
+    extends: marl-base
+    command: python code/production/risk_monitor.py
+    depends_on:
+      - api
+    profiles:
+      - production
+
+  # Testing service
+  test:
+    extends: marl-base
+    command: pytest tests/ -v --cov=code --cov-report=html --cov-report=term
+    profiles:
+      - test
+
+  # Benchmarking service
+  benchmark:
+    extends: marl-base
+    command: python code/benchmarks/run_benchmarks.py
+    profiles:
+      - benchmark
+
+  # Full production stack
+  production-stack:
+    extends: marl-base
+    command: echo "Use docker-compose --profile production up to start full stack"
+    profiles:
+      - production
+
+networks:
+  default:
+    name: marl-network
+
+volumes:
+  data:
+  models:
+  logs:
+  results:

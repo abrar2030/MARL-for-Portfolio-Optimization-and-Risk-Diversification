@@ -1,0 +1,16 @@
+{
+  "portfolios": [
+    "portfolio_prod_001",
+    "portfolio_prod_002"
+  ],
+  "portfolio_prod_001": {
+    "frequency": "weekly",
+    "model_type": "full",
+    "enabled": true
+  },
+  "portfolio_prod_002": {
+    "frequency": "monthly",
+    "model_type": "lite",
+    "enabled": true
+  }
+}

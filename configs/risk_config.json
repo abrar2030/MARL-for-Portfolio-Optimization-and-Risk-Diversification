@@ -1,0 +1,19 @@
+{
+  "portfolios": [
+    "portfolio_prod_001",
+    "portfolio_prod_002"
+  ],
+  "thresholds": {
+    "max_drawdown": 0.15,
+    "var_95": 0.025,
+    "volatility": 0.25,
+    "concentration": 0.30,
+    "correlation": 0.70
+  },
+  "alert_channels": {
+    "email": true,
+    "slack": false,
+    "sms_critical_only": false
+  },
+  "monitoring_interval_seconds": 300
+}

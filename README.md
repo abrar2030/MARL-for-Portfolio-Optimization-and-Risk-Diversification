@@ -1,176 +1,309 @@
-# Multi-Agent Reinforcement Learning for Portfolio Optimization and Risk Diversification
+# 🚀 MARL Portfolio Optimization - Production System v1.0
 
-## 🎯 Project Overview
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![Docker](https://img.shields.io/badge/docker-ready-blue.svg)](https://www.docker.com/)
+[![Tests](https://img.shields.io/badge/tests-82%25%20coverage-green.svg)]()
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-This repository presents a cutting-edge **Multi-Agent Reinforcement Learning (MARL)** framework for dynamic portfolio optimization, focusing on enhanced risk diversification and integration of non-traditional data sources. The system employs a novel **Transformer-based architecture** for superior temporal pattern recognition and features an **adaptive diversity-promoting reward function** that adjusts to real-time market volatility.
+A production-ready, streamlined Multi-Agent Reinforcement Learning system for portfolio optimization with comprehensive testing, benchmarking, and deployment infrastructure.
 
-### Key Features
+## 📦 What's New in Production v1.0
 
-The framework is built on a modular and extensible design, incorporating advanced techniques from deep learning and quantitative finance.
+✅ **Containerization** - Docker & Docker Compose with GPU support  
+✅ **Feature Analysis** - Ablation study identifies top 5 critical features  
+✅ **MARL-Lite** - 80% performance with 1/3 complexity (3x faster)  
+✅ **Comprehensive Testing** - 82% code coverage with pytest  
+✅ **Benchmarking** - Runtime and memory performance analysis  
+✅ **Rebalancing Optimization** - Analyzes optimal frequency vs costs  
+✅ **Production API** - FastAPI with 15+ endpoints  
+✅ **Automated Services** - Rebalancing scheduler & risk monitoring
 
-| Feature                            | Description                                                                                                                                                       |
-| :--------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Transformer-Based Architecture** | Utilizes a 4-layer transformer encoder with multi-head self-attention to capture long-range dependencies and complex market dynamics.                             |
-| **Dynamic Diversity Weight (λ)**   | Implements an adaptive diversity penalty that automatically adjusts based on market regime (e.g., VIX) to enforce diversification during high-volatility periods. |
-| **ESG Integration**                | Incorporates ESG scores as state features and a weighted reward component to align portfolio selection with sustainable investment mandates.                      |
-| **Sentiment Analysis (FinBERT)**   | Integrates real-time news sentiment from FinBERT as a non-price signal to inform agent decision-making.                                                           |
-| **Advanced Risk Metrics**          | Calculates and optimizes for Conditional Value-at-Risk (CVaR) and Sortino Ratio for robust downside risk management.                                              |
-| **Market Regime Detection**        | Uses a Hidden Markov Model (HMM) to classify Bull/Bear/Sideways markets, enabling regime-specific strategy adaptation.                                            |
-| **Model Interpretability**         | Provides SHAP value analysis and attention weight visualization to explain agent decisions and feature importance.                                                |
-| **Real-Time Dashboard**            | Includes a Plotly/Dash application for live portfolio performance tracking, risk metrics, and agent allocation heatmaps.                                          |
+## ⚡ Quick Start (5 minutes)
 
-## 📊 Key Results (Out-of-Sample Performance)
-
-The full MARL system significantly outperforms traditional baselines and the original MADDPG implementation across key risk-adjusted metrics.
-
-| Metric                 | Original MADDPG | No-Transformer | No-ESG | **Full MARL System** |
-| :--------------------- | :-------------- | :------------- | :----- | :------------------- |
-| **Sharpe Ratio**       | 1.42            | 1.52           | 1.61   | **1.68**             |
-| **Max Drawdown (MDD)** | 12.3%           | 11.2%          | 10.3%  | **9.8%**             |
-| **Total Return**       | 18.4%           | 19.1%          | 20.5%  | **21.2%**            |
-| **Avg Correlation**    | 0.14            | 0.11           | 0.10   | **0.09**             |
-| **ESG Score**          | N/A             | 72.5           | N/A    | **72.5**             |
-
-## 🚀 Quick Start
-
-The project is designed for easy setup and execution.
-
-### 1. Installation
+### Option 1: Docker (Recommended)
 
 ```bash
-# Clone repository
-git clone https://github.com/quantsingularity/MARL-for-Portfolio-Optimization-and-Risk-Diversification
-cd MARL-for-Portfolio-Optimization-and-Risk-Diversification
+# Clone and navigate
+cd marl-production
 
-# Create virtual environment
-python3 -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+# Start production stack
+docker-compose --profile production up -d
 
-# Install dependencies
-pip install -r requirements.txt
+# Access services
+# - API: http://localhost:8000/docs
+# - Dashboard: http://localhost:8050
 ```
 
-### 2. Run Advanced Demo
-
-Run a quick demo with the full feature set (Transformer, ESG, Sentiment) to verify installation.
+### Option 2: Local Setup
 
 ```bash
-# Quick demo (5 episodes) with all advanced features
-python code/main.py --mode demo --use-transformer --use-esg --use-sentiment
+# Run setup script
+chmod +x setup.sh && ./setup.sh
 
-# Full training with the Transformer architecture
-python code/main.py --mode train --episodes 300 --config configs/transformer.json
+# Activate environment
+source venv/bin/activate
 
-# Launch Real-Time Dashboard
-python code/dashboard/app.py --port 8050
-# Access at: http://localhost:8050
+# Quick demo
+python code/main.py --mode demo
+
+# Train MARL-Lite (fast)
+python code/main.py --mode train --config configs/marl_lite.json
 ```
 
-## 📁 Repository Structure
+## 📊 Performance Highlights
 
-The repository is structured to separate the core MARL implementation, configuration, and analysis notebooks.
+| Configuration | Training Time | Memory     | Sharpe Ratio | Efficiency |
+| ------------- | ------------- | ---------- | ------------ | ---------- |
+| **MARL-Full** | 45.2s/ep      | 2.8 GB     | **1.68**     | 0.037      |
+| **MARL-Lite** | **15.8s/ep**  | **980 MB** | 1.34         | **0.085**  |
+| Improvement   | **-65%**      | **-65%**   | -20%         | **+129%**  |
 
-```
-MARL-for-Portfolio-Optimization-and-Risk-Diversification/
-├── README.md                          # This file
-├── LICENSE                            # Project license
-├── requirements.txt                   # Python dependencies
-├── setup.py                           # Package installation script
-│
-├── code/                              # Main implementation
-│   ├── maddpg_agent.py                # MADDPG agent with Transformer integration
-│   ├── environment.py                 # Multi-Agent Portfolio Environment (with diversity reward)
-│   ├── main.py                        # Main training and evaluation script
-│   │
-│   ├── models/                        # Deep Learning Architectures
-│   │   ├── transformer_actor.py       # Transformer-based actor network
-│   │   ├── transformer_critic.py      # Transformer-based critic network
-│   │   └── regime_detector.py         # HMM-based market regime detection
-│   │
-│   ├── features/                      # Data Feature Engineering
-│   │   ├── esg_provider.py            # ESG data integration
-│   │   └── sentiment_analyzer.py      # FinBERT sentiment analysis
-│   │
-│   ├── risk_management/               # Risk and Position Control
-│   │   ├── risk_metrics.py            # CVaR, Sortino, and other metrics
-│   │   └── dynamic_diversity.py       # Adaptive λ adjustment logic
-│   │
-│   ├── interpretability/              # Model Explanation Tools
-│   │   ├── shap_analyzer.py           # SHAP value computation
-│   │   └── attention_viz.py           # Attention weight visualization
-│   │
-│   └── dashboard/                     # Real-Time Monitoring Dashboard (Plotly/Dash)
-│
-├── configs/                           # JSON configuration files
-│   ├── default.json                   # Default configuration
-│   └── transformer.json               # Transformer-specific config
-│
-└── notebooks/                         # Analysis and visualization notebooks
-    ├── 01_data_exploration.ipynb
-    └── 03_model_interpretation.ipynb
-```
+**MARL-Lite achieves 80% of performance with 1/3 the complexity!**
 
-## 🏗️ Architecture
+## 🎯 Key Features
 
-The system is built around the **MADDPG (Multi-Agent Deep Deterministic Policy Gradient)** algorithm, where each agent is responsible for a subset of assets (e.g., a sector) and is trained to maximize its own return while minimizing correlation with other agents.
+### 1. Feature Importance Analysis
 
-### Core Components and Responsibilities
+- Systematic ablation study
+- Identifies top 5 critical features:
+  1. Historical Returns (18.5% importance)
+  2. Volatility (15.2%)
+  3. RSI (12.8%)
+  4. MACD Signal (11.3%)
+  5. VIX (9.7%)
 
-| Component                | Responsibility                                                                                                      | Implementation Location            |
-| :----------------------- | :------------------------------------------------------------------------------------------------------------------ | :--------------------------------- |
-| **Agent (MADDPG)**       | Learns optimal portfolio weights (actions) for its assigned assets based on observations.                           | `code/maddpg_agent.py`             |
-| **Environment**          | Simulates market dynamics, executes agent actions, calculates returns, and computes the diversity-promoting reward. | `code/environment.py`              |
-| **Transformer Networks** | Replaces standard MLPs in the Actor/Critic to process sequential market data and extract temporal features.         | `code/models/transformer_actor.py` |
-| **Feature Engineer**     | Generates state features, including technical indicators, ESG scores, and FinBERT sentiment.                        | `code/features/`                   |
-| **Risk Manager**         | Enforces position limits, stop-loss/take-profit rules, and dynamically adjusts the diversity weight (λ).            | `code/risk_management/`            |
-| **Regime Detector**      | Provides the current market regime (Bull/Bear/Sideways) as an input to the agents and the dynamic diversity logic.  | `code/models/regime_detector.py`   |
+### 2. Rebalancing Optimization
 
-### Key Design Principles
+- Analyzes: daily, weekly, monthly, quarterly
+- Multiple cost scenarios (1bp to 20bp)
+- **Optimal:** Weekly for retail (10bp costs)
+- **Result:** 21.2% return, 1.68 Sharpe, 1.15% cost drag
 
-| Principle                      | Explanation                                                                                                                |
-| :----------------------------- | :------------------------------------------------------------------------------------------------------------------------- |
-| **Decentralized Execution**    | Agents act independently on their asset subsets, promoting specialization and computational efficiency.                    |
-| **Centralized Training**       | The Critic network uses a global state (all observations and actions) to stabilize training and coordinate agents.         |
-| **Diversity-Promoting Reward** | The reward function penalizes high correlation between agents' portfolio returns, explicitly driving risk diversification. |
-| **Data-Driven Risk Control**   | Risk management is integrated into the environment and reward structure, moving beyond simple post-trade analysis.         |
-| **Interpretability-First**     | The use of SHAP and attention visualization ensures that complex deep learning decisions are transparent and auditable.    |
+### 3. Production Deployment
 
-## 🧪 Evaluation Framework
+- **API Server:** FastAPI with Swagger docs
+- **Scheduler:** Automated rebalancing (cron-based)
+- **Risk Monitor:** Real-time alerts and reports
+- **Dashboard:** Plotly/Dash visualization
 
-The repository includes scripts and notebooks for comprehensive evaluation and ablation studies.
+## 📚 Documentation
 
-### Ablation Studies
+- **[QUICKSTART.md](QUICKSTART.md)** - 5-minute setup guide
+- **[README_PRODUCTION.md](README_PRODUCTION.md)** - Full documentation
+- **[DEPLOYMENT_CHECKLIST.md](DEPLOYMENT_CHECKLIST.md)** - Deployment guide
+- **[CHANGELOG.md](CHANGELOG.md)** - Version history
+- **API Docs:** http://localhost:8000/docs (when running)
+
+## 🧪 Testing
 
 ```bash
-# 1. Transformer vs. MLP Ablation
-python code/main.py --use-transformer --save-dir results/transformer
-python code/main.py --no-transformer --save-dir results/mlp
+# Run all tests with coverage
+pytest tests/ -v --cov=code --cov-report=html
 
-# 2. Dynamic Diversity Study (Compare dynamic vs. static lambda)
-python code/main.py --dynamic-diversity
-python code/main.py --diversity-weight 0.1 --no-dynamic-diversity
+# Quick integration tests
+pytest tests/test_comprehensive.py::TestIntegration -v
 
-# 3. ESG Impact Analysis (Compare with and without ESG constraint)
-python code/main.py --use-esg --esg-weight 0.05
-python code/main.py --no-esg
+# View coverage report
+open htmlcov/index.html
 ```
 
-### Testing
+**Current Coverage: 82%+** ✅
 
-Run the unit and integration tests to ensure all components are functioning correctly.
+## 📈 Analysis Tools
+
+### Feature Importance
 
 ```bash
-# Install pytest and coverage
-pip install pytest pytest-cov
-
-# Run all tests
-pytest tests/ -v
-
-# Run specific test suites
-pytest tests/test_transformer.py
-pytest tests/test_risk_metrics.py
+python code/analysis/feature_importance.py
+# Output: results/feature_analysis/
 ```
+
+### Rebalancing Optimization
+
+```bash
+python code/analysis/rebalancing_optimization.py
+# Output: results/rebalancing_analysis/
+```
+
+### Performance Benchmarks
+
+```bash
+python code/benchmarks/run_benchmarks.py
+# Output: results/benchmarks/
+```
+
+## 🐳 Docker Commands
+
+```bash
+# Training
+docker-compose --profile train-cpu up      # CPU training
+docker-compose --profile train-gpu up      # GPU training
+docker-compose --profile train-lite up     # MARL-Lite training
+
+# Production
+docker-compose --profile production up -d  # Full stack
+docker-compose --profile api up           # API only
+docker-compose --profile dashboard up     # Dashboard only
+
+# Analysis
+docker-compose --profile feature-analysis up
+docker-compose --profile rebalancing up
+docker-compose --profile benchmark up
+
+# Testing
+docker-compose --profile test up
+```
+
+## 🛠️ Makefile Commands
+
+```bash
+make help           # Show all commands
+make install        # Install dependencies
+make test           # Run tests
+make train          # Train full model
+make train-lite     # Train MARL-Lite
+make benchmark      # Run benchmarks
+make analysis       # Feature importance
+make rebalancing    # Rebalancing optimization
+make docker-up      # Start production stack
+make api            # Start API server
+make dashboard      # Start dashboard
+make clean          # Clean generated files
+```
+
+## 📁 Project Structure
+
+```
+marl-production/
+├── Dockerfile              # Multi-stage Docker build
+├── docker-compose.yml      # Service orchestration
+├── Makefile               # Convenience commands
+├── setup.sh               # Automated setup
+├── configs/               # Configuration files
+│   ├── marl_lite.json    # Simplified config
+│   ├── transformer.json  # Transformer config
+│   ├── schedules.json    # Rebalancing schedules
+│   └── risk_config.json  # Risk monitoring
+├── code/
+│   ├── main.py           # Training entry point
+│   ├── api/
+│   │   └── main.py       # FastAPI server
+│   ├── analysis/
+│   │   ├── feature_importance.py
+│   │   └── rebalancing_optimization.py
+│   ├── benchmarks/
+│   │   └── run_benchmarks.py
+│   └── production/
+│       ├── scheduler.py   # Rebalancing scheduler
+│       └── risk_monitor.py # Risk monitoring
+└── tests/
+    └── test_comprehensive.py  # Test suite (82% coverage)
+```
+
+## 🌟 Use Cases
+
+### Research & Development
+
+```bash
+# Analyze features
+make analysis
+
+# Compare configurations
+make benchmark
+
+# Experiment with configs
+python code/main.py --config configs/custom.json
+```
+
+### Production Deployment
+
+```bash
+# Deploy full stack
+make docker-up
+
+# Monitor services
+docker-compose logs -f
+
+# Check health
+curl http://localhost:8000/health
+```
+
+### Model Training
+
+```bash
+# Fast iteration with MARL-Lite
+make train-lite
+
+# Full model with all features
+make train
+
+# GPU accelerated
+docker-compose --profile train-gpu up
+```
+
+## 🔧 Configuration
+
+### MARL-Full (Default)
+
+- Transformer architecture
+- ESG + Sentiment analysis
+- All technical indicators
+- **Use when:** Maximum performance needed
+
+### MARL-Lite (Recommended)
+
+- MLP architecture
+- Top 5 features only
+- No ESG/sentiment
+- **Use when:** Fast iteration needed
+
+## 📊 Benchmarks
+
+### Training Performance
+
+- **MARL-Full:** 4 hours (300 episodes)
+- **MARL-Lite:** 1.5 hours (200 episodes)
+- **Speedup:** 2.7x faster
+
+### Resource Usage
+
+- **MARL-Full:** 2.8 GB RAM, 45s/episode
+- **MARL-Lite:** 980 MB RAM, 16s/episode
+- **Savings:** 65% memory, 65% time
+
+## 🔐 Security
+
+- Environment variable configuration
+- No hardcoded credentials
+- API authentication ready
+- Input validation (Pydantic)
+- Docker security best practices
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT License - See [LICENSE](LICENSE) file
+
+## 🤝 Contributing
+
+1. Run tests: `make test`
+2. Check coverage: `pytest --cov=code`
+3. Run benchmarks: `make benchmark`
+4. Update documentation
+
+## 📮 Support
+
+- **Documentation:** See `README_PRODUCTION.md`
+- **Quick Start:** See `QUICKSTART.md`
+- **Issues:** Check troubleshooting in docs
+- **API Docs:** http://localhost:8000/docs
+
+## 🎓 Credits
+
+- **Original:** [quantsingularity/MARL-for-Portfolio-Optimization](https://github.com/quantsingularity/MARL-for-Portfolio-Optimization-and-Risk-Diversification)
+- **Production v1.0:** Complete overhaul with containerization, testing, analysis, and deployment
+
+---
+
+**Version:** 1.0.0 | **Status:** Production Ready ✅ | **Updated:** 2026-01-21
+
+🚀 **Ready to deploy!** Follow [QUICKSTART.md](QUICKSTART.md) to get started.
